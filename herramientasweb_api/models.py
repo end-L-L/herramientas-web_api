@@ -26,3 +26,20 @@ class Profiles(models.Model):
 
     def __str__(self):
         return "Perfil del usuario "+self.usuario.first_name+" "+self.usuario.last_name
+
+
+class Materia(models.Model):
+    nrc = models.IntegerField(primary_key=True)
+    nombre = models.CharField(max_length=255,null=True, blank=True)
+    seccion = models.IntegerField(null=True, blank=True)
+    dias = models.CharField(max_length=255,null=True, blank=True)
+    horaInicio = models.TimeField(null=True, blank=True)
+    horaFin = models.TimeField(null=True, blank=True)
+    salon = models.CharField(max_length=255, null=True, blank=True)
+    programa = models.CharField(max_length=255,null=True, blank=True)
+    creation = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    update = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        texto = "{0} ({1})"
+        return texto.format(self.nombre, self.nrc)
