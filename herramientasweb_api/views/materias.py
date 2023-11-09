@@ -31,6 +31,16 @@ import string
 import random
 import json
 
+# Obtener Materias Registradas
+class MateriasAll(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    def get(self, request, *args, **kwargs):
+        materias = Materia.objects.order_by("nrc")
+        lista = MateriasSerializer(materias, many=True).data
+        
+        return Response(lista, 200)
+
+# Transacciones de Materia
 class MateriaView(generics.CreateAPIView):
     
     #Registrar Materia

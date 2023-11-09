@@ -38,5 +38,7 @@ urlpatterns = [
 
     #Create Subjects
         path('materia/', materias.MateriaView.as_view()),
+    #Show Subjects
+        path('lista-materias/', materias.MateriasAll.as_view()),
     
 ]
