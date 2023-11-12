@@ -43,6 +43,13 @@ class MateriasAll(generics.CreateAPIView):
 # Transacciones de Materia
 class MateriaView(generics.CreateAPIView):
     
+    #Obtener Materia por NRC
+    def get(self, request, *args, **kwargs):
+        materia = get_object_or_404(Materia, nrc = request.GET.get("nrc"))
+        materia = MateriasSerializer(materia, many=False).data
+
+        return Response(materia, 200)
+
     #Registrar Materia
     @transaction.atomic
     def post(self, request, *args, **kwargs):
@@ -65,10 +72,27 @@ class MateriaView(generics.CreateAPIView):
                                               horaInicio= request.data["horaInicio"],
                                               horaFin= request.data["horaFin"],
                                               salon= request.data["salon"],
-                                              programa= request.data["programaEducativo"]
+                                              programa= request.data["programa"]
             )
 
             materia.save()
             return Response({"subject_created_nrc": materia.nrc }, 201)
 
         return Response(materia.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# Actualizar Materia
+class MateriaViewEdit(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    def put(self, request, *args, **kwargs):
+        materia = get_object_or_404(Materia, nrc=request.data["nrc"])
+        materia.nombre = request.data["nombre"]
+        materia.seccion = request.data["seccion"]
+        materia.dias = request.data["dias"]
+        materia.horaInicio = request.data["horaInicio"]
+        materia.horaFin = request.data["horaFin"]
+        materia.salon = request.data["salon"]
+        materia.programa = request.data["programa"]
+        materia.save()
+        mat = MateriasSerializer(materia, many=False).data
+
+        return Response(mat,200)
