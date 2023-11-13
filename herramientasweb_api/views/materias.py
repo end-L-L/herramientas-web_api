@@ -82,6 +82,7 @@ class MateriaView(generics.CreateAPIView):
     
 # Actualizar Materia
 class MateriaViewEdit(generics.CreateAPIView):
+    # Editar Materia
     permission_classes = (permissions.IsAuthenticated,)
     def put(self, request, *args, **kwargs):
         materia = get_object_or_404(Materia, nrc=request.data["nrc"])
@@ -96,3 +97,12 @@ class MateriaViewEdit(generics.CreateAPIView):
         mat = MateriasSerializer(materia, many=False).data
 
         return Response(mat,200)
+
+    # Eliminar Materia
+    def delete(self, request, *args, **kwargs):
+        materia = get_object_or_404(Materia, nrc=request.GET.get("nrc"))
+        try:
+            materia.delete()
+            return Response({"details":"subject deleted"},200)
+        except Exception as e:
+            return Response({"details":"error"},400)
