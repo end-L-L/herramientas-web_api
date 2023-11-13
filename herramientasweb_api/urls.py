@@ -17,17 +17,30 @@ from django.contrib import admin
 from django.urls import path
 from herramientasweb_api.views import bootstrap
 from herramientasweb_api.views import users
+from herramientasweb_api.views import materias
 from herramientasweb_api.views import auth
 
 urlpatterns = [
+    #Admin
+        path('admin/', admin.site.urls),
     #Version
         path('bootstrap/version', bootstrap.VersionView.as_view()),
     #Create User
         path('users/', users.UsersView.as_view()),
     #User Data
-        path('me/', users.Userme.as_view()),
+        path('lista-users/', users.UsersAll.as_view()),
+    #Edit User
+        path('users-edit/', users.UsersViewEdit.as_view()),
     #Login
         path('token/', auth.CustomAuthToken.as_view()),
     #Logout
-        path('logout/', auth.Logout.as_view())
+        path('logout/', auth.Logout.as_view()),
+
+    #Create Subjects
+        path('materia/', materias.MateriaView.as_view()),
+    #Show Subjects
+        path('lista-materias/', materias.MateriasAll.as_view()),
+    #Edit Subjects
+        path('materia-edit/', materias.MateriaViewEdit.as_view()),
+    
 ]
